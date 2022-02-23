@@ -83,6 +83,9 @@ func createFeedback(w http.ResponseWriter, r *http.Request){
 	// header.Add("Access-Control-Allow-Origin", "*")
 	// header.Add("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
 	// header.Add("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
 	w.Header().Set("Content-Type","application/json")
 	// if r.Method == "OPTIONS" {
 	// 	w.WriteHeader(http.StatusOK)
@@ -103,8 +106,8 @@ func main()  {
 	persons = append(persons, person{ID: "1",Name: "Abubakar",Address: "H.no 285"});
 	persons = append(persons, person{ID: "2",Name: "Saad",Address: "H.no 282"});
 
-	feedbacks = append(feedbacks, feedback{ID: "1",Description: "first feedback"});
-	feedbacks = append(feedbacks, feedback{ID: "2",Description: "second feedback"});
+	feedbacks = append(feedbacks, feedback{ID: "1",Description: "first feedback check"});
+	feedbacks = append(feedbacks, feedback{ID: "2",Description: "second feedback check"});
 
 	r.HandleFunc("/getAllperson",getAllPerson).Methods("GET");
 	r.HandleFunc("/getpersonbyID/{id}",getPersonByid).Methods("GET");
