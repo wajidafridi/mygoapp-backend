@@ -8,6 +8,7 @@ import (
 	"math/rand"
 	"net/http"
 	"strconv"
+	"os"
 )
 
 type person struct{
@@ -15,11 +16,12 @@ type person struct{
 	Name string `json:"name"`
 	Address string `json:"address"`
 }
-type subject struct{
+type feedback struct{
 	ID string `json:"id"`
-	Subject_Name string `json:"Sub_Name"`
+	Description string `json:"description"`
 }
-var subjects []subject;
+
+var feedbacks []feedback;
 var persons []person;
 
 func getAllPerson(w http.ResponseWriter, r *http.Request)  {
@@ -65,9 +67,35 @@ func createPerson(w http.ResponseWriter, r *http.Request){
 	fmt.Println(Person);
 
 }
+
+func getAllFeedback(w http.ResponseWriter, r *http.Request)  {
+	// enableCors(&w);
+	w.Header().Set("Content-Type","application/json");
+	json.NewEncoder(w).Encode(feedbacks);
+}
+func createFeedback(w http.ResponseWriter, r *http.Request){
+	// setupResponse(&w,r);
+	// header := w.Header()
+	// header.Add("Access-Control-Allow-Origin", "*")
+	// header.Add("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
+	// header.Add("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
+	w.Header().Set("Content-Type","application/json")
+	// if r.Method == "OPTIONS" {
+	// 	w.WriteHeader(http.StatusOK)
+	// 	return
+	// }
+	
+	var Feedback feedback
+	_ = json.NewDecoder(r.Body).Decode(&Feedback);
+	Feedback.ID = strconv.Itoa(rand.Intn(10000000000));
+	feedbacks = append(feedbacks, Feedback);
+	json.NewEncoder(w).Encode(Feedback);
+	fmt.Println(Feedback);
+}
+
 func main()  {
 	r:=mux.NewRouter();
-	
+	port := os.Getenv("PORT")	
 	persons = append(persons, person{ID: "1",Name: "Abubakar",Address: "H.no 285"});
 	persons = append(persons, person{ID: "2",Name: "Saad",Address: "H.no 282"});
 
@@ -76,6 +104,9 @@ func main()  {
 	r.HandleFunc("/createPerson",createPerson).Methods("Post");
 	r.HandleFunc("/byName",getPersonByName).Methods("GET");
 
-	fmt.Print("Server Starting at port: 8000");
-	log.Fatal(http.ListenAndServe(":8000",r))
+	r.HandleFunc("/getallfeedback",getAllFeedback).Methods("GET");
+	r.HandleFunc("/createfeedback",createFeedback).Methods("Post");
+
+	fmt.Print("Server Starting at port: "+port);
+	log.Fatal(http.ListenAndServe(":"+port,r))
 }
