@@ -24,6 +24,10 @@ type feedback struct{
 var feedbacks []feedback;
 var persons []person;
 
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+}
+
 func getAllPerson(w http.ResponseWriter, r *http.Request)  {
 	
 	w.Header().Set("Content-Type","application/json");
@@ -69,7 +73,7 @@ func createPerson(w http.ResponseWriter, r *http.Request){
 }
 
 func getAllFeedback(w http.ResponseWriter, r *http.Request)  {
-	// enableCors(&w);
+	enableCors(&w);
 	w.Header().Set("Content-Type","application/json");
 	json.NewEncoder(w).Encode(feedbacks);
 }
