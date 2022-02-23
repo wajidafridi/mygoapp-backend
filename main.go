@@ -83,7 +83,7 @@ func createFeedback(w http.ResponseWriter, r *http.Request){
 	// header.Add("Access-Control-Allow-Origin", "*")
 	// header.Add("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
 	// header.Add("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "Authorization")
 	w.Header().Set("Access-Control-Allow-Methods", "DELETE, POST, GET, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
 	w.Header().Set("Content-Type","application/json")
